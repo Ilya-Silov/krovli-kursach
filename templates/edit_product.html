@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Редактирование продукта</h4> </div>
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                <form method="POST">
+                <button type="submit" name="action" value="delete" class="btn btn-danger pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light" onclick="return confirm('Вы уверены, что хотите удалить этот продукт?');">Удалить продукт</button>
+                </form>
+
+                <ol class="breadcrumb">
+                    <li><a href="/edit_type_of_roofing_material" target="_blank" >|| Тип материалов |</a></li>
+                    <li><a href="/edit_color" target="_blank" >| Цвет |</a></li>
+                    <li><a href="/edit_coverage" target="_blank" >| Покрытие |</a></li>
+                    <li><a href="/edit_brand" target="_blank" >| Коллекция ||</a></li>
+                </ol>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        {% if message %}
+        <div id="notification" class="alert alert-info" style="display: none;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <form method="POST">        
+        
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <div class="white-box">
+
+                        {% if material_form %}
+
+                        <div class="form-group">
+                            <label class="col-md-12">Название продукта</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control form-control-line" id="name_materials" name="name_materials" value="{{ material_form['name_materials'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Тип материалов</label>
+                            <div class="col-md-12">
+                                <select name="id_type_of_roofing_material" id="id_type_of_roofing_material" class="form-control form-control-line" required>
+                                    {% for materials in type_of_roofing_material %} 
+                                    <option value="{{ materials['id_type_of_roofing_material'] }}" {% if materials['id_type_of_roofing_material'] == material_form['id_type_of_roofing_material'] %}selected{% endif %}>{{ materials['name_type_of_roofing_material'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Цвет</label>
+                            <div class="col-md-12">
+                                <select name="id_color" id="id_color" class="form-control form-control-line" required>
+                                    {% for materials in color %} 
+                                    <option value="{{ materials['id_color'] }}" {% if materials['id_color'] == material_form['id_color'] %}selected{% endif %}>{{ materials['name_color'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Покрытие</label>
+                            <div class="col-md-12">
+                                <select name="id_coverage" id="id_coverage" class="form-control form-control-line" required>
+                                    {% for materials in coverage %} 
+                                    <option value="{{ materials['id_coverage'] }}" {% if materials['id_coverage'] == material_form['id_coverage'] %}selected{% endif %}>{{ materials['name_coverage'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Коллекция</label>
+                            <div class="col-md-12">
+                                <select name="id_brand" id="id_brand" class="form-control form-control-line" required>
+                                    {% for materials in brand %} 
+                                    <option value="{{ materials['id_brand'] }}" {% if materials['id_brand'] == material_form['id_brand'] %}selected{% endif %}>{{ materials['name_brand'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Толщина</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control form-control-line" id="thickness" name="thickness" value="{{ material_form['thickness'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Размер</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control form-control-line" id="place" name="place" value="{{ material_form['place'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Количество</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control form-control-line" id="count" name="count" value="{{ material_form['count'] }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Цена</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control form-control-line" id="price" name="price" value="{{ material_form['price'] }}" required>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success">Обновить продукт</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>        
+        
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

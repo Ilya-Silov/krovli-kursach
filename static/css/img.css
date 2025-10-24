@@ -1,0 +1,57 @@
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* отступы между элементами */
+    justify-content: center; /* выравнивание по центру */
+}
+
+.col-lg-4, .col-md-6, .col-sm-6 {
+    /* Чтобы игнорировать Bootstrap-классы и задать свои размеры */
+    flex: 1 0 calc(25% - 30px); /* 3 в ряд с учетом gap */
+    box-sizing: border-box;
+}
+
+.styled-image {
+    width: 100%;
+    height: 300px; /* увеличиваем высоту */
+    object-fit: cover; /* чтобы изображение не искажалось */
+    transition: transform 0.3s ease;
+}
+
+.styled-image:hover {
+    transform: scale(1.05);
+}
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.blog-img:hover .overlay {
+    opacity: 1;
+}
+
+/* .btn { */
+    /* background-color: #ff5733; */
+    /* color: white; */
+    /* border: none; */
+    /* padding: 10px 20px; */
+    /* border-radius: 5px; */
+    /* cursor: pointer; */
+    /* font-size: 16px; */
+    /* transition: background-color 0.3s ease; */
+/* } */
+
+/* .btn:hover { */
+    /* background-color: #c70039; */
+/* } */

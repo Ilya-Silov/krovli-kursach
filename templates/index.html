@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Наша компания <br> - создаёт качественные крыши <br> - даёт гарантию на 20 лет</h4>
+            </div>
+            
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                <ol class="breadcrumb">
+                    <li>Позвоните нам: +79177777777</li>
+                </ol>
+                <br>
+                <ol class="breadcrumb">
+                    <li>Напишите нам: roofing_materials@mail.ru</li>
+                </ol>
+            </div>
+
+        </div>
+
+        {% if message %}
+        <div id="notification" class="alert alert-info" style="display: none;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="white-box analytics-info">
+                    <h3 class="box-title">Резино-полимерная кровля</h3>
+                    <ul class="list-inline two-part">
+                        <li>
+                            <div id="sparklinedash"></div>
+                        </li>
+                        <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">КАЧЕСТВО </span></li>
+                    </ul>
+                </div>
+                <div class="gallery">
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/rezina1.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/rezina2.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Добавьте остальные картинки для этой группы -->
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="white-box analytics-info">
+                    <h3 class="box-title">Металлочерепица</h3>
+                    <ul class="list-inline two-part">
+                        <li>
+                            <div id="sparklinedash2"></div>
+                        </li>
+                        <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">ГАРАНТИИ </span></li>
+                    </ul>
+                </div>
+                <div class="gallery">
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/metal1.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/metal2.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Добавьте остальные картинки для этой группы -->
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-6 col-xs-12">
+                <div class="white-box analytics-info">
+                    <h3 class="box-title">Фальцевая кровля</h3>
+                    <ul class="list-inline two-part">
+                        <li>
+                            <div id="sparklinedash3"></div>
+                        </li>
+                        <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">ПОСТАВКИ </span></li>
+                    </ul>
+                </div>
+                <div class="gallery">
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/falc1.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-10 col-md-1 col-sm-1">
+                        <div class="single-blog">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="static/img/falc2.jpg" alt="blog-image" class="styled-image">
+                                    {% if session.login %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/products">Узнать больше</a></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="overlay">
+                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Добавьте остальные картинки для этой группы -->
+                </div>
+            </div>
+        </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

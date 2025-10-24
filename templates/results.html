@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Поиск</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <h3 class="box-title">Кровельные материалы</h3>
+                    <div class="table-responsive">
+                        <form action="#">
+
+                        <table class="table fixed-table">
+                            <colgroup>
+                                <col style="width: 17%;">
+                                <col style="width: 15%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Тип материалов</th>
+                                    <th>Цвет</th>
+                                    <th>Покрытие</th>
+                                    <th>Коллекция</th>
+                                    <th>Толщина (см)</th>
+                                    <th>Размер (м2)</th>
+                                    <th>Количество (шт)</th>
+                                    <th>Цена (руб)</th>
+                                </tr>
+                            </thead>
+
+                            {% for result in results %}
+                            <tbody>
+                                <tr>
+                                    <td><a href="/sel_prod{{ result['id_materials'] }}">{{ result['name_materials'] }}</a></td>
+                                    <td>{{ result['name_type_of_roofing_material'] }}</td>
+                                    <td>{{ result['name_color'] }}</td>
+                                    <td>{{ result['name_coverage'] }}</td>
+                                    <td>{{ result['name_brand'] }}</td>
+                                    <td>{{ result['thickness'] }}</td>
+                                    <td>{{ result['place'] }}</td>
+                                    <td>{{ result['count'] }}</td>
+                                    <td>{{ result['price'] }}</td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+
+
+{% endblock %}

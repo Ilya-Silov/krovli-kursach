@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Продукция</h4>
+            </div>
+        </div>
+
+        {% if message %}
+        <div id="notification" class="alert alert-info" style="display: none;">
+            {{ message }}
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <h3 class="box-title">Кровельные материалы</h3>
+                    <div class="table-responsive">
+                        <form action="#">
+                        {% if materials %}
+                        {% for material in materials %}
+
+                        <table class="table fixed-table">
+                            <colgroup>
+                                <col style="width: 17%;">
+                                <col style="width: 15%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                                <col style="width: 9%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Тип материалов</th>
+                                    <th>Цвет</th>
+                                    <th>Покрытие</th>
+                                    <th>Коллекция</th>
+                                    <th>Толщина (см)</th>
+                                    <th>Размер (м2)</th>
+                                    <th>Количество (шт)</th>
+                                    <th>Цена (руб)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="/sel_prod{{ material['id_materials'] }}">{{ material['name_materials'] }}</a></td>
+                                    <td>{{ material['name_type_of_roofing_material'] }}</td>
+                                    <td>{{ material['name_color'] }}</td>
+                                    <td>{{ material['name_coverage'] }}</td>
+                                    <td>{{ material['name_brand'] }}</td>
+                                    <td>{{ material['thickness'] }}</td>
+                                    <td>{{ material['place'] }}</td>
+                                    <td>{{ material['count'] }}</td>
+                                    <td>{{ material['price'] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        {% endfor %}
+                        {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+
+
+{% endblock %}

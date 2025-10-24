@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Регистрация</h4>
+            </div>
+        </div>
+
+        {% if message %}
+        <div id="notification" class="alert alert-info" style="display: none;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+
+        <div class="row">
+            
+            <div class="col-md-8 col-xs-12">
+                <div class="white-box">
+
+                    <div class="form-group">
+                        <label class="col-md-12">Имя</label>
+                        <div class="col-md-12">
+                            <input type="text" placeholder="Введите имя" class="form-control form-control-line" id="firstname_client" name="firstname_client" value="{{ user_details.firstname_client if user_details.firstname_client else '' }}"> </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">Фамилия</label>
+                        <div class="col-md-12">
+                            <input type="text" placeholder="Введите фамилию" class="form-control form-control-line" id="lastname_client" name="lastname_client" value="{{ user_details.lastname_client if user_details.lastname_client else '' }}"> </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">Номер телефона</label>
+                        <div class="col-md-12">
+                            <input type="text" placeholder="8 (___) __ + __ + ___" class="form-control form-control-line" id="phone_client" name="phone_client" value="{{ user_details.phone_client if user_details.phone_client else '' }}"> </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">Пароль</label>
+                        <div class="col-md-12">
+                            <input type="password" placeholder="Введите пароль" class="form-control form-control-line" id="password_client" name="password_client"> </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-12">Повторите пароль</label>
+                        <div class="col-md-12">
+                            <input type="password" placeholder="Повторите пароль" class="form-control form-control-line" id="confirmpassword" name="confirmpassword"> </div>
+                    </div>
+
+                    <p><a href="/logcus">Уже зарегистрированы? Войдите прямо сейчас!</a></p>
+                    
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success">Зарегистрироваться</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

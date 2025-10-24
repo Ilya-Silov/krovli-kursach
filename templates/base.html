@@ -1,0 +1,100 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+    {{ ckeditor.load() }}
+    {{ super() }}
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11" rel="stylesheet"> -->
+    
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap/dist/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/plugins/bower_components/toast-master/css/jquery.toast.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/plugins/bower_components/morrisjs/morris.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/plugins/bower_components/chartist-js/dist/chartist.min.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/animate.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/colors/default.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/img.css') }}">
+
+
+{% endblock %}
+
+{% block title %}
+    Кровельные материалы
+{% endblock %}
+
+{% block navbar %}
+    {% include '_header.html' %}
+{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">
+                        <i class="icon-{{ category }}"></i> {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% block sub_content %}
+    {% endblock %}
+
+
+{% block footer %}
+    {% include '_footer.html' %}
+{% endblock %}
+
+
+    
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/jquery.slimscroll.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/waves.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/custom.min.js') }}"></script>
+
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/waypoints/lib/jquery.waypoints.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/waypoints/lib/jquery.waypoints.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/chartist-js/dist/chartist.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dashboard1.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/plugins/bower_components/toast-master/js/jquery.toast.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/message.js') }}"></script>
+
+
+
+
+{% endblock %}
+

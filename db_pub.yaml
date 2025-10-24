@@ -1,0 +1,5 @@
+mysql_host: 'd4cac1f41650d351cfa93723.twc1.net'
+mysql_user: 'user'
+mysql_password: 'fh80Il7gnMJ(hq'
+mysql_db: 'roofing_materials'
+ssl: '.cloud-certs/root.crt'

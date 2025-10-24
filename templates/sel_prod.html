@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block sub_content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row bg-title">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                <h4 class="page-title">Редактирование продукта</h4> </div>
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                {% if session.login %}
+                    {% if session.id_role == 1 %}
+
+                    <a href="/edit_product{{ materials['id_materials'] }}" class="btn btn-danger pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light">Редактировать</a>
+
+                    {% elif session.id_role == 2 %}
+
+                    <a href="/edit_product{{ materials['id_materials'] }}" class="btn btn-danger pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light">Редактировать</a>
+
+                    {% else %}
+
+                    {% endif %}
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% if message %}
+        <div id="notification" class="alert alert-info" style="display: none;">
+            {{ message }}
+        </div>
+        {% endif %}
+
+        <form action="#">
+        {% if materials %}
+        
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <div class="white-box">
+                    <form class="form-horizontal form-material">
+                        <div class="form-group">
+                            <label class="col-md-12">Название продукта</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['name_materials'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Тип материалов</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['name_type_of_roofing_material'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Цвет</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['name_color'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Покрытие</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['name_coverage'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Коллекция</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['name_brand'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Толщина (в см)</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['thickness'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Размер (в м2)</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['place'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Количество (поштучно)</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['count'] }}</p> </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Цена (в рублях)</label>
+                            <div class="col-md-12">
+                                <p>{{ materials['price'] }}</p> </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>        
+        
+        {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}
