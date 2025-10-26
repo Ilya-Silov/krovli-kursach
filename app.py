@@ -818,16 +818,29 @@ def search():
     results = cursor.fetchall()
     cursor.close()
 
-    return render_template('results.html',
-                           results=results,
-                           types=types,
-                           colors=colors,
-                           coverages=coverages,
-                           brands=brands,
-                           thickness_ranges=thickness_ranges,
-                           price_ranges=price_ranges,
-                           size_ranges=size_ranges,
-                           form_data=form_data)
+    user_role = session.get('id_role')
+    if user_role in [1, 2]:
+        return render_template('results.html',
+                            results=results,
+                            types=types,
+                            colors=colors,
+                            coverages=coverages,
+                            brands=brands,
+                            thickness_ranges=thickness_ranges,
+                            price_ranges=price_ranges,
+                            size_ranges=size_ranges,
+                            form_data=form_data)
+    else:
+        return render_template('results_customer.html',
+                            results=results,
+                            types=types,
+                            colors=colors,
+                            coverages=coverages,
+                            brands=brands,
+                            thickness_ranges=thickness_ranges,
+                            price_ranges=price_ranges,
+                            size_ranges=size_ranges,
+                            form_data=form_data)
 
 
 @app.route('/orders', methods=['GET', 'POST'])

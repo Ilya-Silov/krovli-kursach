@@ -4,16 +4,21 @@
 <div id="page-wrapper">
     <div class="container-fluid">
 
-        <div class="bg-title">
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Наша компания</h4> <br> - создаёт качественные крыши <br> - даёт гарантию на 20 лет
+        <!-- Hero / Заголовок с фоном -->
+        <div class="row" style="background-color: #cfd8dc; color: white; padding: 60px 30px; border-radius: 10px; margin: 30px 0; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));">
+            <div class="col-xs-12 col-sm-8">
+                <h1 style="color:white">Кровельный Стандарт</h1>
+                <p>Качественные кровельные материалы с гарантией до 20 лет</p>
+                {% if session.login %}
+                    <a href="/search" class="btn btn-primary btn-lg" style="background-color:#ff5722; border:none; padding: 12px 25px;">Получить консультацию</a>
+                {% else %}
+                    <a href="/logcus" class="btn btn-primary btn-lg" style="background-color:#ff5722; border:none; padding: 12px 25px;">Получить консультацию</a>
+                {% endif %}
             </div>
-            
-            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12" style="text-align: right;">
-                    <p>Позвоните нам: +79177777777</p>
-                    <p>Напишите нам: roofing_materials@mail.ru</p>
+            <div class="col-xs-12 col-sm-4 text-right" style="margin-top: 20px;">
+                <p>Телефон: +7 (917) 777-77-77</p>
+                <p>Email: help@RoofMaster.ru</p>
             </div>
-
         </div>
 
         {% if message %}
@@ -22,183 +27,96 @@
         </div>
         {% endif %}
 
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 col-xs-12">
-                <div class="white-box analytics-info">
-                    <h3 class="box-title">Резино-полимерная кровля</h3>
-                    <ul class="list-inline two-part">
-                        <li>
-                            <div id="sparklinedash"></div>
-                        </li>
-                        <li class="text-right"><i class="ti-arrow-up text-success"></i> <span class="counter text-success">КАЧЕСТВО </span></li>
-                    </ul>
-                </div>
-                <div class="gallery">
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/rezina1.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
+        <!-- Услуги -->
+        <div class="row text-center">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
+                    <h3>Резино-полимерная кровля</h3>
+                    <p>Идеальный выбор для плоских крыш. Герметичность и долговечность.</p>
+                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                        Изображение
                     </div>
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/rezina2.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Добавьте остальные картинки для этой группы -->
+                    <a href="/search" class="btn btn-success btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-sm-6 col-xs-12">
-                <div class="white-box analytics-info">
-                    <h3 class="box-title">Металлочерепица</h3>
-                    <ul class="list-inline two-part">
-                        <li>
-                            <div id="sparklinedash2"></div>
-                        </li>
-                        <li class="text-right"><i class="ti-arrow-up text-purple"></i> <span class="counter text-purple">ГАРАНТИИ </span></li>
-                    </ul>
-                </div>
-                <div class="gallery">
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/metal1.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
+                    <h3>Металлочерепица</h3>
+                    <p>Прочный и эстетичный материал для скатных крыш.</p>
+                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                        Изображение
                     </div>
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/metal2.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Добавьте остальные картинки для этой группы -->
+                    <a href="/search" class="btn btn-primary btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-sm-6 col-xs-12">
-                <div class="white-box analytics-info">
-                    <h3 class="box-title">Фальцевая кровля</h3>
-                    <ul class="list-inline two-part">
-                        <li>
-                            <div id="sparklinedash3"></div>
-                        </li>
-                        <li class="text-right"><i class="ti-arrow-up text-info"></i> <span class="counter text-info">ПОСТАВКИ </span></li>
-                    </ul>
-                </div>
-                <div class="gallery">
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/falc1.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
+                    <h3>Фальцевая кровля</h3>
+                    <p>Современное решение для дизайнерских проектов. Минимум швов.</p>
+                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                        Изображение
                     </div>
-
-                    <div class="col-lg-10 col-md-1 col-sm-1">
-                        <div class="single-blog">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="static/img/falc2.jpg" alt="blog-image" class="styled-image">
-                                    {% if session.login %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/search">Узнать больше</a></button>
-                                        </div>
-                                    {% else %}
-                                        <div class="overlay">
-                                            <button class="btn"><a href="/logcus">Узнать больше</a></button>
-                                        </div>
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Добавьте остальные картинки для этой группы -->
+                    <a href="/search" class="btn btn-info btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
         </div>
 
+        <!-- Преимущества -->
+        <div class="row text-center" style="margin-top:50px;">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <h4>Качество</h4>
+                <p>Только сертифицированные материалы.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <h4>Гарантия</h4>
+                <p>Гарантия до 20 лет на все кровли.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <h4>Опыт</h4>
+                <p>Более 10 лет на рынке.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <h4>Доставка</h4>
+                <p>Оперативная доставка по всей России.</p>
+            </div>
+        </div>
 
+        <!-- Галерея -->
+        <div class="row" style="margin-top:50px;">
+            <div class="col-xs-12">
+                <h3 class="text-center">Наши проекты</h3>
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
+                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                            Проект 1
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
+                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                            Проект 2
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
+                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
+                            Проект 3
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Контакты -->
+        <div class="row" style="margin-top:50px;">
+            <div class="col-xs-12 text-center">
+                <h3>Свяжитесь с нами</h3>
+                <p>Телефон: +7 (917) 777-77-77 | Email: roofing_materials@mail.ru</p>
+                <p>Адрес: г. Астрахань, ул. Примерная, д.1</p>
+            </div>
         </div>
 
     </div>
 </div>
-
-
-
-
-
-
-
-
 
 {% endblock %}
