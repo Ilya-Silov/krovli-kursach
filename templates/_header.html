@@ -13,10 +13,8 @@
             </li>
         </ul>
     </div>
-    <!-- /.navbar-header -->
-    <!-- /.navbar-top-links -->
-    <!-- /.navbar-static-side -->
 </nav>
+
 <!-- Left Sidebar - style you can find in sidebar.scss  -->
 <!-- ============================================================== -->
 <div class="navbar-default sidebar" role="navigation">
@@ -33,30 +31,29 @@
             </h3>
         </div>
 
-        <ul class="nav" id="side-menu">
+        <ul style="padding-top: 70px;" class="nav" id="side-menu">
 
             {% if session.login %}
 
                 {% if session.id_role == 1 %}
 
-                <li style="padding: 70px 0 0;">
-                    <a href="/regemp" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Регистрация админа</a>
-                </li>
+                    <li>
+                        <a href="/regemp" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Регистрация работника</a>
+                    </li>
+
+                {% endif %}
 
                 <li>
-                    <a href="/search" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
+                    <a href="/orders" class="waves-effect"><i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>Заказы</a>
                 </li>
 
-                {% else %}
-
-                <li style="padding: 70px 0 0;">
+                <li >
                     <a href="/search" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
-                </li>
-                {% endif %}
+                </li>                
 
             {% else %}
 
-            <li style="padding: 70px 0 0;">
+            <li>
                 <a href="/logcus" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Вход</a>
             </li>
 
@@ -64,19 +61,11 @@
 
         </ul>
 
-        {% if session.login %}
-
-            {% if session.id_role == 1 %}
+        {% if session.login and (session.id_role == 1 or session.id_role == 2) %}
+        
             <div class="center p-20">
                 <a href="/add_product" class="btn btn-danger btn-block waves-effect waves-light">Добавить продукт</a>
             </div>
-
-            {% elif session.id_role == 2 %}
-            <div class="center p-20">
-                <a href="/add_product" class="btn btn-danger btn-block waves-effect waves-light">Добавить продукт</a>
-            </div>
-
-            {% endif %}
         {% endif %}
     </div>
     

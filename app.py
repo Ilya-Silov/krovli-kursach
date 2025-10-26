@@ -168,6 +168,11 @@ def logcus():
 #регистрация администратора
 @app.route('/regemp', methods=['GET', 'POST'])
 def regemp():
+    # Проверка роли текущего пользователя
+    if 'login' not in session or session.get('id_role') != 1:  # id_role=1 — супер-админ
+        session['message'] = "У вас нет прав для добавления новых пользователей"
+        return redirect('/')  # Или на страницу входа/ошибки
+    
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM roles")
     roles = cursor.fetchall()
@@ -792,7 +797,56 @@ def search():
                            form_data=form_data)
 
 
+@app.route('/orders')
+def orders():
+    if 'login' not in session:
+        return redirect('/logcus')
 
+    cursor = mysql.connection.cursor()
+
+    if session.get('id_role') == 1:  # администратор
+        cursor.execute("""
+            SELECT o.id_order, o.order_date, os.name_status,
+                   c.firstname_client, c.lastname_client,
+                   m.name_materials, oi.quantity, oi.price
+            FROM orders o
+            JOIN client c ON o.id_client = c.id_client
+            JOIN order_items oi ON o.id_order = oi.id_order
+            JOIN materials m ON oi.id_materials = m.id_materials
+            JOIN order_status os ON o.id_status = os.id_status
+            ORDER BY o.order_date DESC
+        """)
+        orders = cursor.fetchall()
+        cursor.close()
+        return render_template('orders/orders_admin.html', orders=orders)
+
+    else:  # клиент
+        cursor.execute("""
+            SELECT o.id_order, o.order_date, os.name_status,
+                   m.name_materials, oi.quantity, oi.price
+            FROM orders o
+            JOIN order_items oi ON o.id_order = oi.id_order
+            JOIN materials m ON oi.id_materials = m.id_materials
+            JOIN order_status os ON o.id_status = os.id_status
+            WHERE o.id_client = %s
+            ORDER BY o.order_date DESC
+        """, (session.get('id_client'),))
+        orders = cursor.fetchall()
+        cursor.close()
+        return render_template('orders/orders_customer.html', orders=orders)
+
+@app.route('/update_order_status/<int:order_id>', methods=['POST'])
+def update_order_status(order_id):
+    if 'login' not in session or session.get('id_role') not in [1, 2]:
+        return redirect('/orders')
+
+    new_status = request.form.get('status')
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("UPDATE orders SET id_status = %s WHERE id_order = %s", (new_status, order_id))
+    mysql.connection.commit()
+    cursor.close()
+    return redirect('/orders')
 
 
 

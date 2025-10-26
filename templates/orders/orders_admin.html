@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Все заказы</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID заказа</th>
+            <th>Дата</th>
+            <th>Клиент</th>
+            <th>Продукт</th>
+            <th>Количество</th>
+            <th>Цена</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id_order }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.firstname_client }} {{ order.lastname_client }}</td>
+            <td>{{ order.name_materials }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.price }}</td>
+            <td>{{ order.name_status }}</td>
+            <td>
+                <form action="/update_order_status/{{ order.id_order }}" method="post" style="display:inline-block;">
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="1" {% if order.id_status == 1 %}selected{% endif %}>Новый</option>
+                        <option value="2" {% if order.id_status == 2 %}selected{% endif %}>В обработке</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

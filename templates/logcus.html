@@ -3,52 +3,45 @@
 
 <div id="page-wrapper">
     <div class="container-fluid">
+
+        <!-- Заголовок -->
         <div class="bg-title">
-            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <div class="col-xs-12 col-sm-6 col-md-4">
                 <h4 class="page-title">Вход</h4>
             </div>
         </div>
 
         {% if message %}
-        <div id="notification" class="alert alert-info" style="display: none;">
+        <div id="notification" class="alert alert-info">
             {{ message }}
         </div>
         {% endif %}
 
         <form method="POST">
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <div class="white-box">
 
-        <div class="row">
-            
-            <div class="col-md-8 col-xs-12">
-                <div class="white-box">
-
-                    <div class="form-group row">
-                        <label class="col-md-12">Номер телефона</label>
-                        <div class="col-md-12">
-                            <input type="text" placeholder="+7xxxxxxxxxx" class="form-control form-control-line" id="phone_client" name="phone_client"> </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-12">Пароль</label>
-                        <div class="col-md-12">
-                            <input type="password" placeholder="Введите пароль" class="form-control form-control-line" id="password_client" name="password_client"> </div>
-                    </div>
-
-                    <p><a href="/regcus">Нет аккаунта? Создайте его прямо сейчас!</a></p>
-
-                    <p><a href="/logemp">Вход для сотрудников</a></p>
-                    
-
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <button class="btn btn-success">Войти</button>
+                        <div class="form-group">
+                            <label for="phone_client">Номер телефона</label>
+                            <input type="text" placeholder="+7xxxxxxxxxx" class="form-control" id="phone_client" name="phone_client">
                         </div>
-                    </div>
 
+                        <div class="form-group">
+                            <label for="password_client">Пароль</label>
+                            <input type="password" placeholder="Введите пароль" class="form-control" id="password_client" name="password_client">
+                        </div>
+
+                        <p><a href="/regcus">Нет аккаунта? Создайте его прямо сейчас!</a></p>
+                        <p><a href="/logemp">Вход для сотрудников</a></p>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block">Войти</button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        
         </form>
 
     </div>
