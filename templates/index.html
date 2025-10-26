@@ -5,7 +5,17 @@
     <div class="container-fluid">
 
         <!-- Hero / Заголовок с фоном -->
-        <div class="row" style="background-color: #cfd8dc; color: white; padding: 60px 30px; border-radius: 10px; margin: 30px 0; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));">
+        <div class="row" style="
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://s14.stc.all.kpcdn.net/expert/wp-content/uploads/2023/09/mch-960x540.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        ">
             <div class="col-xs-12 col-sm-8">
                 <h1 style="color:white">Кровельный Стандарт</h1>
                 <p>Качественные кровельные материалы с гарантией до 20 лет</p>
@@ -28,58 +38,86 @@
         {% endif %}
 
         <!-- Услуги -->
-        <div class="row text-center">
+        <!-- Услуги -->
+        <div class="row text-center" style="margin-top:40px;">
+            <div class="col-xs-12">
+                <h3 style="margin-bottom:30px;">Наши услуги</h3>
+            </div>
+
             <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
-                    <h3>Резино-полимерная кровля</h3>
-                    <p>Идеальный выбор для плоских крыш. Герметичность и долговечность.</p>
-                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                        Изображение
+                <div class="white-box" style="overflow:hidden; border-radius:10px; background-color:white; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s, box-shadow 0.2s; margin-bottom:20px;">
+                    <img src="https://roofarea.ru/d/list_gumibo_temno-zelenyj.webp" alt="Резино-полимерная кровля"
+                        style="width:100%; height:200px; object-fit:cover;">
+                    <div style="padding:20px;">
+                        <h3>Резино-полимерная кровля</h3>
+                        <p>Идеальный выбор для плоских крыш. Герметичность и долговечность.</p>
+                        <a href="/search" class="btn btn-success btn-block">Узнать больше</a>
                     </div>
-                    <a href="/search" class="btn btn-success btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
-                    <h3>Металлочерепица</h3>
-                    <p>Прочный и эстетичный материал для скатных крыш.</p>
-                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                        Изображение
+                <div class="white-box" style="overflow:hidden; border-radius:10px; background-color:white; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s, box-shadow 0.2s; margin-bottom:20px;">
+                    <img src="https://roofarea.ru/thumb/2/1z7iPNzm2EeLXNqhx_GZfQ/1280r/d/metallocherep_6.jpg" alt="Металлочерепица"
+                        style="width:100%; height:200px; object-fit:cover;">
+                    <div style="padding:20px;">
+                        <h3>Металлочерепица</h3>
+                        <p>Прочный и эстетичный материал для скатных крыш.</p>
+                        <a href="/search" class="btn btn-primary btn-block">Узнать больше</a>
                     </div>
-                    <a href="/search" class="btn btn-primary btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-4">
-                <div class="white-box" style="padding:20px; border-radius:10px; background-color:#f5f5f5; margin-bottom:20px;">
-                    <h3>Фальцевая кровля</h3>
-                    <p>Современное решение для дизайнерских проектов. Минимум швов.</p>
-                    <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                        Изображение
+                <div class="white-box" style="overflow:hidden; border-radius:10px; background-color:white; box-shadow:0 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s, box-shadow 0.2s; margin-bottom:20px;">
+                    <img src="https://roofarea.ru/thumb/2/ALs0wzDrOEyhsPMPqx3ReQ/1280r/d/falc_5.jpg" alt="Фальцевая кровля"
+                        style="width:100%; height:200px; object-fit:cover;">
+                    <div style="padding:20px;">
+                        <h3>Фальцевая кровля</h3>
+                        <p>Современное решение для дизайнерских проектов. Минимум швов.</p>
+                        <a href="/search" class="btn btn-info btn-block">Узнать больше</a>
                     </div>
-                    <a href="/search" class="btn btn-info btn-block" style="margin-top:10px;">Узнать больше</a>
                 </div>
             </div>
         </div>
 
+
         <!-- Преимущества -->
-        <div class="row text-center" style="margin-top:50px;">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-                <h4>Качество</h4>
-                <p>Только сертифицированные материалы.</p>
+        <div class="row text-center" style="margin-top:60px; background-color:#f5f5f5; padding:40px 20px; border-radius:10px;">
+            <div class="col-xs-12">
+                <h3 style="margin-bottom:30px;">Почему выбирают нас</h3>
             </div>
+
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <h4>Гарантия</h4>
-                <p>Гарантия до 20 лет на все кровли.</p>
+                <div style="background:white; padding:25px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin:10px;">
+                    <i class="fa fa-certificate" style="font-size:36px; color:#4caf50; margin-bottom:10px;"></i>
+                    <h4>Качество</h4>
+                    <p>Только сертифицированные материалы.</p>
+                </div>
             </div>
+
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <h4>Опыт</h4>
-                <p>Более 10 лет на рынке.</p>
+                <div style="background:white; padding:25px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin:10px;">
+                    <i class="fa fa-shield" style="font-size:36px; color:#2196f3; margin-bottom:10px;"></i>
+                    <h4>Гарантия</h4>
+                    <p>Гарантия до 20 лет на все кровли.</p>
+                </div>
             </div>
+
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <h4>Доставка</h4>
-                <p>Оперативная доставка по всей России.</p>
+                <div style="background:white; padding:25px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin:10px;">
+                    <i class="fa fa-briefcase" style="font-size:36px; color:#ff9800; margin-bottom:10px;"></i>
+                    <h4>Опыт</h4>
+                    <p>Более 10 лет на рынке.</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div style="background:white; padding:25px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin:10px;">
+                    <i class="fa fa-truck" style="font-size:36px; color:#e91e63; margin-bottom:10px;"></i>
+                    <h4>Доставка</h4>
+                    <p>Оперативная доставка по всей России.</p>
+                </div>
             </div>
         </div>
 
@@ -88,21 +126,22 @@
             <div class="col-xs-12">
                 <h3 class="text-center">Наши проекты</h3>
                 <div class="row" style="margin-top:20px;">
+                    
                     <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
-                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                            Проект 1
+                        <div style="height:200px; border-radius:10px; background-image:url(' https://www.tophouse.ru/images/price/elementyi-ventilyatsii-doma/master-flesh-master-flash-uplotniteli-trub/1470722302313-bulletin.jpg'); background-size:cover; background-position:center;">
                         </div>
                     </div>
+        
                     <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
-                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                            Проект 2
+                        <div style="height:200px; border-radius:10px; background-image:url('https://www.baltceramic.ru/upload/iblock/426/42666c63116e8de75c12cce415239513.jpg'); background-size:cover; background-position:center;">
                         </div>
                     </div>
+        
                     <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:15px;">
-                        <div style="height:200px; background-color:#cfd8dc; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#607d8b;">
-                            Проект 3
+                        <div style="height:200px; border-radius:10px; background-image:url('https://krovlya-yuga.ru/article-roof-49.jpg'); background-size:cover; background-position:center;">
                         </div>
                     </div>
+        
                 </div>
             </div>
         </div>
@@ -111,7 +150,7 @@
         <div class="row" style="margin-top:50px;">
             <div class="col-xs-12 text-center">
                 <h3>Свяжитесь с нами</h3>
-                <p>Телефон: +7 (917) 777-77-77 | Email: roofing_materials@mail.ru</p>
+                <p>Телефон: +7 (917) 777-77-77 | Email: help@RoofMaster.ru</p>
                 <p>Адрес: г. Астрахань, ул. Примерная, д.1</p>
             </div>
         </div>

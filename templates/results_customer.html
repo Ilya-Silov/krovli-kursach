@@ -151,14 +151,22 @@
             {% for result in results %}
             <div class="col-xs-12 col-sm-6 col-md-4" style="margin-bottom:20px;">
                 <div class="white-box" style="padding:15px; border-radius:10px; background-color:#f5f5f5;">
-                    <div style="height:180px; background-color:#cfd8dc; background-image: url('{{ result.image_url if result.image_url else "https://via.placeholder.com/300x180?text=No+Image" }}'); background-size: cover; background-position:center; border-radius:10px;"></div>
-                    <h4 style="margin-top:10px;"><a href="/sel_prod{{ result['id_materials'] }}">{{ result['name_materials'] }}</a></h4>
-                    <p><strong>Тип:</strong> {{ result['name_type_of_roofing_material'] }}</p>
-                    <p><strong>Цвет:</strong> {{ result['name_color'] }}, <strong>Покрытие:</strong> {{ result['name_coverage'] }}</p>
-                    <p><strong>Бренд:</strong> {{ result['name_brand'] }}</p>
-                    <p><strong>Толщина:</strong> {{ result['thickness'] }} см, <strong>Размер:</strong> {{ result['place'] }} м²</p>
-                    <p><strong>Цена:</strong> {{ result['price'] }} руб</p>
-                    <a href="/sel_prod{{ result['id_materials'] }}" class="btn btn-primary btn-block">Подробнее</a>
+                    <div style="height:180px;
+                                background-color:#cfd8dc;
+                                background-image: url('{{ result.material_photo | default("https://via.placeholder.com/300x180?text=No+Image", true)}}');
+                                background-size: cover;
+                                background-position:center;
+                                border-radius:10px;">
+                    </div>
+                    <h4 style="margin-top:10px;">
+                        <a href="/sel_prod{{ result.id_materials }}">{{ result.name_materials }}</a>
+                    </h4>
+                    <p><strong>Тип:</strong> {{ result.name_type_of_roofing_material }}</p>
+                    <p><strong>Цвет:</strong> {{ result.name_color }}, <strong>Покрытие:</strong> {{ result.name_coverage }}</p>
+                    <p><strong>Бренд:</strong> {{ result.name_brand }}</p>
+                    <p><strong>Толщина:</strong> {{ result.thickness }} см, <strong>Размер:</strong> {{ result.place }} м²</p>
+                    <p><strong>Цена:</strong> {{ result.price }} руб</p>
+                    <a href="/sel_prod{{ result.id_materials }}" class="btn btn-primary btn-block">Подробнее</a>
                 </div>
             </div>
             {% endfor %}

@@ -82,7 +82,7 @@ def regcus():
 
         # Проверка уникальности phone_client
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM client WHERE phone_client = %s", (phone_for_db,))
+        cursor.execute("SELECT * FROM roofing_materials.`users` WHERE phone = %s", (phone_for_db,))
         existing_user = cursor.fetchone()
 
         if existing_user:
@@ -102,7 +102,7 @@ def regcus():
             return render_template('regcus.html', user_details=user_details, message=message)
 
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO client(firstname_client, lastname_client, phone_client, password_client) VALUES (%s, %s, %s, %s)",
+        cursor.execute("INSERT INTO roofing_materials.`users`(firstname, lastname, phone, password) VALUES (%s, %s, %s, %s)",
                        (
                            user_details['firstname_client'],
                            user_details['lastname_client'],
@@ -163,18 +163,18 @@ def logcus():
         
         phone_client = convert_phone_for_db(user_details['phone_client'])
         cursor = mysql.connection.cursor()
-        result_value = cursor.execute("SELECT * FROM client WHERE phone_client = %s", ([phone_client]))
+        result_value = cursor.execute("SELECT * FROM roofing_materials.`users` WHERE phone = %s", ([phone_client]))
         if result_value > 0:
             client = cursor.fetchone()
-            if check_password_hash(client['password_client'], user_details['password_client']):
+            if check_password_hash(client['password'], user_details['password_client']):
                 session['login'] = True
                 session['id_role'] = client['id_role']
-                session['firstname_client'] = client['firstname_client']
-                session['lastname_client'] = client['lastname_client']
-                session['id_client'] = client['id_client']
-                session['message'] = 'Добро пожаловать, ' + session['firstname_client'] + '!'
+                session['firstname'] = client['firstname']
+                session['lastname'] = client['lastname']
+                session['id_user'] = client['id_user']
+                session['message'] = 'Добро пожаловать, ' + session['firstname'] + '!'
             else:
-                cursor.close
+                cursor.close()
                 session['message'] = 'Неверный пароль, попробуйте снова'
                 return render_template('logcus.html', message=message)
         else:
@@ -208,7 +208,7 @@ def regemp():
             return render_template('regemp.html', emp_details=emp_details, roles=roles, message=message)
 
         # Проверка уникальности login_worker
-        cursor.execute("SELECT * FROM worker WHERE login_worker = %s", (emp_details['login_worker'],))
+        cursor.execute("SELECT * FROM roofing_materials.`users` WHERE login = %s", (emp_details['login_worker'],))
         existing_user = cursor.fetchone()
 
         if existing_user:
@@ -242,7 +242,7 @@ def regemp():
 
         id_role = role['id_role']
 
-        cursor.execute("INSERT INTO worker(firstname_worker, lastname_worker, login_worker, password_worker, id_role) VALUES (%s, %s, %s, %s, %s)",
+        cursor.execute("INSERT INTO roofing_materials.`users`(firstname, lastname, login, password, id_role) VALUES (%s, %s, %s, %s, %s)",
                        (emp_details['firstname_worker'], emp_details['lastname_worker'], emp_details['login_worker'], generate_password_hash(password_worker), id_role))
         mysql.connection.commit()
         cursor.close()
@@ -276,17 +276,17 @@ def logemp():
         emp_details = request.form
         login_worker = emp_details['login_worker']
         cursor = mysql.connection.cursor()
-        result_value = cursor.execute("SELECT * FROM worker WHERE login_worker = %s", ([login_worker]))
+        result_value = cursor.execute("SELECT * FROM roofing_materials.`users` WHERE login = %s", ([login_worker]))
         if result_value > 0:
             worker = cursor.fetchone()
-            if check_password_hash(worker['password_worker'], emp_details['password_worker']):
+            if check_password_hash(worker['password'], emp_details['password_worker']):
                 session['login'] = True
                 session['id_role'] = worker['id_role']
-                session['firstname_worker'] = worker['firstname_worker']
-                session['lastname_worker'] = worker['lastname_worker']
-                session['message'] = 'Добро пожаловать, ' + session['firstname_worker'] + '!'
+                session['firstname'] = worker['firstname']
+                session['lastname'] = worker['lastname']
+                session['message'] = 'Добро пожаловать, ' + session['firstname'] + '!'
             else:
-                cursor.close
+                cursor.close()
                 session['message'] = 'Неверный пароль, попробуйте снова'
                 return render_template('logemp.html', message=message)
         else:
@@ -740,7 +740,7 @@ def search():
 
     # Базовый SQL
     sql = """
-        SELECT id_materials, name_materials, thickness, place, count, price, 
+        SELECT id_materials, name_materials, material_photo, thickness, place, count, price, 
                name_type_of_roofing_material, name_color, name_coverage, name_brand
         FROM materials
         JOIN type_of_roofing_material ON materials.id_type_of_roofing_material = type_of_roofing_material.id_type_of_roofing_material
@@ -864,10 +864,10 @@ def orders():
     if user_role in [1, 2]:  # администратор или модератор
         sql = """
             SELECT o.id_order, o.order_date, o.id_status, os.name_status,
-                   c.firstname_client, c.lastname_client,
+                   c.firstname, c.lastname,
                    m.name_materials, oi.quantity, oi.price
             FROM orders o
-            JOIN client c ON o.id_client = c.id_client
+            JOIN `users` c ON o.id_user = c.id_user
             JOIN order_items oi ON o.id_order = oi.id_order
             JOIN materials m ON oi.id_materials = m.id_materials
             JOIN order_status os ON o.id_status = os.id_status
@@ -876,7 +876,7 @@ def orders():
         params = []
 
         if search_query:
-            sql += " AND (o.id_order LIKE %s OR c.firstname_client LIKE %s OR c.lastname_client LIKE %s)"
+            sql += " AND (o.id_order LIKE %s OR c.firstname LIKE %s OR c.lastname LIKE %s)"
             like_query = f"%{search_query}%"
             params.extend([like_query, like_query, like_query])
 
@@ -894,9 +894,9 @@ def orders():
             JOIN order_items oi ON o.id_order = oi.id_order
             JOIN materials m ON oi.id_materials = m.id_materials
             JOIN order_status os ON o.id_status = os.id_status
-            WHERE o.id_client = %s
+            WHERE o.id_user = %s
             ORDER BY o.order_date DESC
-        """, (session.get('id_client'),))
+        """, (session.get('id_user'),))
         orders = cursor.fetchall()
         cursor.close()
         return render_template('orders/orders_customer.html', orders=orders)
@@ -932,8 +932,8 @@ def order(material_id):
 
         # Создаем заказ
         cursor.execute(
-            "INSERT INTO orders (id_client) VALUES (%s)",
-            (session['id_client'],)
+            "INSERT INTO orders (id_user) VALUES (%s)",
+            (session['id_user'],)
         )
         order_id = cursor.lastrowid
 
