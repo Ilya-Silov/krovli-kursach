@@ -74,11 +74,8 @@ INSERT INTO `roofing_materials`.`brand` (`name_brand`) VALUES ('Roman');
 CREATE TABLE `materials` (
   `id_materials` int NOT NULL AUTO_INCREMENT,
   `name_materials` varchar(100) NOT NULL,
-  `material_photo` varchar(200),
+  `material_photo` varchar(150),
   `thickness` float NOT NULL,
-  `place` float NOT NULL,
-  `count` int NOT NULL,
-  `price` float NOT NULL,
   `id_type_of_roofing_material` int NOT NULL,
   `id_color` int NOT NULL,
   `id_coverage` int NOT NULL,
