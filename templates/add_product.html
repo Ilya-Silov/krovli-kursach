@@ -3,9 +3,9 @@
 
 <div id="page-wrapper">
     <div class="container-fluid">
-        <div class="row bg-title">
+        <div class="bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Редактирование продукта</h4> </div>
+                <h4 class="page-title">Добавить продукт</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 
                 <!-- <a href="/add_product" target="_blank" class="btn btn-danger pull-right m-l-20 hidden-xs hidden-sm waves-effect waves-light">Добавить продукт</a> -->
@@ -32,14 +32,14 @@
             <div class="col-md-8 col-xs-12">
                 <div class="white-box">
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Название продукта</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="name_materials" name="name_materials" value="{{ request.form.get('name_materials', '') }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Тип материалов</label>
                             <div class="col-md-12">
                                 <select name="id_type_of_roofing_material" id="id_type_of_roofing_material" class="form-control form-control-line" required>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Цвет</label>
                             <div class="col-md-12">
                                 <select name="id_color" id="id_color" class="form-control form-control-line" required>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Покрытие</label>
                             <div class="col-md-12">
                                 <select name="id_coverage" id="id_coverage" class="form-control form-control-line" required>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Коллекция</label>
                             <div class="col-md-12">
                                 <select name="id_brand" id="id_brand" class="form-control form-control-line" required>
@@ -87,35 +87,35 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Толщина</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="thickness" name="thickness" value="{{ request.form.get('thickness', '') }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Размер</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="place" name="place" value="{{ request.form.get('place', '') }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Количество</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="count" name="count" value="{{ request.form.get('count', '') }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Цена</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="price" name="price" value="{{ request.form.get('price', '') }}" required>
                             </div>
                         </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <div class="col-sm-12">
                             <button class="btn btn-success">Добавить продукт</button>
                         </div>

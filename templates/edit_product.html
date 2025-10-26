@@ -3,7 +3,8 @@
 
 <div id="page-wrapper">
     <div class="container-fluid">
-        <div class="row bg-title">
+
+        <div class="bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                 <h4 class="page-title">Редактирование продукта</h4> </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
@@ -36,14 +37,14 @@
 
                         {% if material_form %}
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Название продукта</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="name_materials" name="name_materials" value="{{ material_form['name_materials'] }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Тип материалов</label>
                             <div class="col-md-12">
                                 <select name="id_type_of_roofing_material" id="id_type_of_roofing_material" class="form-control form-control-line" required>
@@ -54,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Цвет</label>
                             <div class="col-md-12">
                                 <select name="id_color" id="id_color" class="form-control form-control-line" required>
@@ -65,7 +66,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Покрытие</label>
                             <div class="col-md-12">
                                 <select name="id_coverage" id="id_coverage" class="form-control form-control-line" required>
@@ -76,7 +77,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Коллекция</label>
                             <div class="col-md-12">
                                 <select name="id_brand" id="id_brand" class="form-control form-control-line" required>
@@ -87,28 +88,28 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Толщина</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="thickness" name="thickness" value="{{ material_form['thickness'] }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Размер</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="place" name="place" value="{{ material_form['place'] }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Количество</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="count" name="count" value="{{ material_form['count'] }}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-12">Цена</label>
                             <div class="col-md-12">
                                 <input type="text" class="form-control form-control-line" id="price" name="price" value="{{ material_form['price'] }}" required>
@@ -117,7 +118,7 @@
 
                     {% endif %}
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <div class="col-sm-12">
                             <button class="btn btn-success">Обновить продукт</button>
                         </div>

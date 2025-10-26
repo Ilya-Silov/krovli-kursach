@@ -3,19 +3,158 @@
 
 <div id="page-wrapper">
     <div class="container-fluid">
-        <div class="row bg-title">
+        <div class="bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Поиск</h4>
+                <h4 class="page-title">Поиск и фильтрация</h4>
             </div>
         </div>
 
+        <!-- Форма фильтров -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title">Кровельные материалы</h3>
-                    <div class="table-responsive">
-                        <form action="#">
+                    <h3 class="box-title">
+                        Фильтры поиска
+                        <button class="btn btn-xs btn-default pull-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#filterForm"
+                                aria-expanded="true"
+                                aria-controls="filterForm">
+                            Показать / Скрыть
+                        </button>
+                    </h3>
+        
+                    <div class="collapse in" id="filterForm">
+                        <form action="/search" method="post" class="form-horizontal" style="margin-top:15px;">
+        
+                            <!-- 1. Поиск и тип -->
+                            <div class="row" style="margin-bottom:15px;">
+                                <div class="col-md-6">
+                                    <label>Поиск по названию</label>
+                                    <input type="text" name="query" class="form-control"
+                                           placeholder="Введите название материала..."
+                                           value="{{ form_data.query if form_data.query }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Тип материала</label>
+                                    <select name="type_filter" class="form-control">
+                                        <option value="">Все типы</option>
+                                        {% for type in types %}
+                                            <option value="{{ type.id_type_of_roofing_material }}"
+                                                {% if form_data.type_filter == type.id_type_of_roofing_material|string %}selected{% endif %}>
+                                                {{ type.name_type_of_roofing_material }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <!-- 2. Цвет и покрытие -->
+                            <div class="row" style="margin-bottom:15px;">
+                                <div class="col-md-6">
+                                    <label>Цвет</label>
+                                    <select name="color_filter" class="form-control">
+                                        <option value="">Все цвета</option>
+                                        {% for color in colors %}
+                                            <option value="{{ color.id_color }}"
+                                                {% if form_data.color_filter == color.id_color|string %}selected{% endif %}>
+                                                {{ color.name_color }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Покрытие</label>
+                                    <select name="coverage_filter" class="form-control">
+                                        <option value="">Все покрытия</option>
+                                        {% for coverage in coverages %}
+                                            <option value="{{ coverage.id_coverage }}"
+                                                {% if form_data.coverage_filter == coverage.id_coverage|string %}selected{% endif %}>
+                                                {{ coverage.name_coverage }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <!-- 3. Бренд и цена -->
+                            <div class="row" style="margin-bottom:15px;">
+                                <div class="col-md-6">
+                                    <label>Бренд / Коллекция</label>
+                                    <select name="brand_filter" class="form-control">
+                                        <option value="">Все бренды</option>
+                                        {% for brand in brands %}
+                                            <option value="{{ brand.id_brand }}"
+                                                {% if form_data.brand_filter == brand.id_brand|string %}selected{% endif %}>
+                                                {{ brand.name_brand }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Цена</label>
+                                    <select name="price_filter" class="form-control">
+                                        <option value="">Любая цена</option>
+                                        {% for id, r in price_ranges.items() %}
+                                            <option value="{{ id }}" {% if form_data.price_filter == id %}selected{% endif %}>
+                                                {{ r.label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <!-- 4. Толщина и размер -->
+                            <div class="row" style="margin-bottom:15px;">
+                                <div class="col-md-6">
+                                    <label>Толщина</label>
+                                    <select name="thickness_filter" class="form-control">
+                                        <option value="">Любая толщина</option>
+                                        {% for id, r in thickness_ranges.items() %}
+                                            <option value="{{ id }}" {% if form_data.thickness_filter == id %}selected{% endif %}>
+                                                {{ r.label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Размер</label>
+                                    <select name="size_filter" class="form-control">
+                                        <option value="">Любой размер</option>
+                                        {% for id, r in size_ranges.items() %}
+                                            <option value="{{ id }}" {% if form_data.size_filter == id %}selected{% endif %}>
+                                                {{ r.label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <!-- Кнопки -->
+                            <div class="row">
+                                <div class="col-md-12 text-right" style="margin-top:10px;">
+                                    <button type="submit" class="btn btn-primary">Поиск</button>
+                                    <a href="/search" class="btn btn-default">Сбросить фильтры</a>
+                                </div>
+                            </div>
+        
+                        </form>
+                    </div><!-- /collapse -->
+                </div>
+            </div>
+        </div>
+        
+        
+        
 
+        <!-- Результаты поиска -->
+        {% if results %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <h3 class="box-title">Результаты поиска ({{ results|length }} найденных)</h3>
+                    <div class="table-responsive">
                         <table class="table fixed-table">
                             <colgroup>
                                 <col style="width: 17%;">
@@ -41,9 +180,8 @@
                                     <th>Цена (руб)</th>
                                 </tr>
                             </thead>
-
-                            {% for result in results %}
                             <tbody>
+                                {% for result in results %}
                                 <tr>
                                     <td><a href="/sel_prod{{ result['id_materials'] }}">{{ result['name_materials'] }}</a></td>
                                     <td>{{ result['name_type_of_roofing_material'] }}</td>
@@ -55,18 +193,15 @@
                                     <td>{{ result['count'] }}</td>
                                     <td>{{ result['price'] }}</td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
-                            {% endfor %}
                         </table>
-                        
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /.row -->
+        {% endif %}
     </div>
 </div>
-
 
 {% endblock %}

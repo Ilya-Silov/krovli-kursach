@@ -4,14 +4,7 @@
         </div>
         <!-- /Logo -->
         <ul class="nav navbar-top-links navbar-right pull-right">
-            <li>
-                {% if session.login %}
-                <form action="/search" method="post" class="app-search hidden-sm hidden-xs m-r-10">
-                    <input type="text" placeholder="Искать..." class="form-control" name="query" autocomplete="off"><i class="fa fa-search"></i>
-                    <!-- <button type="submit" class="submit"></button> -->
-                </form>
-                {% endif %}
-            </li>
+
             <li>
                 <a class="profile-pic"><b class="hidden-xs"> </b></a>
                 {% if session.login %}
@@ -28,15 +21,19 @@
 <!-- ============================================================== -->
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav slimscrollsidebar">
-        <div class="sidebar-head">
-            <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu"><a href="/">Наша компания</a></span></h3>
+        <!-- Заголовок -->
+        <div class="sidebar-head" style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 600; display: flex; align-items: center;">
+                <span class="fa-fw open-close" style="margin-right: 8px;">
+                    <i class="ti-close ti-menu"></i>
+                </span>
+                <span class="hide-menu">
+                    <a href="/" style="color: inherit; text-decoration: none;">Наша компания</a>
+                </span>
+            </h3>
         </div>
 
         <ul class="nav" id="side-menu">
-
-            <li style="padding: 70px 0 0;">
-                <a href="/regemp" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Регистрация админа</a>
-            </li>
 
             {% if session.login %}
 
@@ -47,13 +44,13 @@
                 </li>
 
                 <li>
-                    <a href="/products" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
+                    <a href="/search" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
                 </li>
 
                 {% else %}
 
                 <li style="padding: 70px 0 0;">
-                    <a href="/products" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
+                    <a href="/search" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Продукция</a>
                 </li>
                 {% endif %}
 

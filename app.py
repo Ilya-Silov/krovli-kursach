@@ -48,19 +48,24 @@ def regcus():
             message = 'Пожалуйста, заполните все обязательные поля'
             return render_template('regcus.html', user_details=user_details, message=message)
         
+        phone_client = user_details['phone_client']
+        # Валидация телефона
+        if not validate_phone(phone_client):
+            message = 'Номер телефона должен быть в формате +7XXXXXXXXXX'
+            return render_template('regcus.html', user_details=user_details, message=message)
+        
+        # Преобразование номера для БД
+        phone_for_db = convert_phone_for_db(phone_client)
+
         # Проверка уникальности phone_client
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM client WHERE phone_client = %s", (user_details['phone_client'],))
+        cursor.execute("SELECT * FROM client WHERE phone_client = %s", (phone_for_db,))
         existing_user = cursor.fetchone()
 
         if existing_user:
             message = 'Этот телефон уже зарегистрирован. Пожалуйста, используйте другой'
             return render_template('regcus.html', user_details=user_details, message=message)
         
-        # Проверка на корректность phone_client
-        if not re.match(r'^\d{11}$', user_details['phone_client']):
-            message = 'Номер телефона должен содержать ровно 11 цифр'
-            return render_template('regcus.html', user_details=user_details, message=message)
 
         # Проверка на соответствие паролей
         if user_details['password_client'] != user_details['confirmpassword']:
@@ -75,7 +80,13 @@ def regcus():
 
         cursor = mysql.connection.cursor()
         cursor.execute("INSERT INTO client(firstname_client, lastname_client, phone_client, password_client) VALUES (%s, %s, %s, %s)",
-                       (user_details['firstname_client'], user_details['lastname_client'], user_details['phone_client'], generate_password_hash(password_client)))
+                       (
+                           user_details['firstname_client'],
+                           user_details['lastname_client'],
+                           phone_for_db,
+                           generate_password_hash(password_client)
+                        )
+                        )
         mysql.connection.commit()
         cursor.close()
         # flash('Регистрация пройдена успешно', 'success')
@@ -96,6 +107,17 @@ def validate_password(password_client):
         return False
     return True
 
+def validate_phone(phone):
+
+    pattern = r'^\+\d{11}$' #Проверяет номер телефона в формате '+7XXXXXXXXXX', где X - цифра.
+    return bool(re.match(pattern, phone))
+
+def convert_phone_for_db(phone):
+    # Убираем все символы кроме цифр
+    clean_phone = re.sub(r'\D', '', phone)  # оставляем только цифры
+        
+    return clean_phone
+
 
 #вход пользователя
 @app.route('/logcus', methods=['GET', 'POST'])
@@ -105,7 +127,18 @@ def logcus():
 
     if request.method == 'POST':
         user_details = request.form
-        phone_client = user_details['phone_client']
+        
+        # Проверяем, что номер в правильном формате +7xxx
+        if not re.match(r'^\+7\d{10}$', user_details['phone_client']):
+            session['message'] = 'Номер телефона должен быть в формате +7xxxxxxxxxx'
+            return render_template('logcus.html', message=session['message'])
+        
+        # Запрещаем номера, начинающиеся с 8
+        if user_details['phone_client'].startswith('8'):
+            session['message'] = 'Номер телефона должен начинаться с +7, а не с 8'
+            return render_template('logcus.html', message=session['message'])
+        
+        phone_client = convert_phone_for_db(user_details['phone_client'])
         cursor = mysql.connection.cursor()
         result_value = cursor.execute("SELECT * FROM client WHERE phone_client = %s", ([phone_client]))
         if result_value > 0:
@@ -249,17 +282,10 @@ def logout():
 
 
 
-# страница продуктов
+# страница продуктов - теперь перенаправляет на поиск
 @app.route('/products')
 def products():
-    cursor = mysql.connection.cursor()
-    message = session.pop('message', None)
-    result_value = cursor.execute("SELECT id_materials, name_materials, thickness, place, count, price, name_type_of_roofing_material, name_color, name_coverage, name_brand FROM materials JOIN type_of_roofing_material ON materials.id_type_of_roofing_material = type_of_roofing_material.id_type_of_roofing_material JOIN color ON materials.id_color = color.id_color JOIN coverage ON materials.id_coverage = coverage.id_coverage JOIN brand ON materials.id_brand = brand.id_brand GROUP BY id_materials ORDER BY 1 ASC")
-    if result_value > 0:
-        materials = cursor.fetchall()
-        cursor.close()
-        return render_template("products.html", materials=materials, message=message)
-    return render_template("products.html", materials=None)
+    return redirect('/search')
 
 
 # карточка продукта
@@ -638,14 +664,132 @@ def edit_brand():
 
 
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.form['query']
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT id_materials, name_materials, thickness, place, count, price, name_type_of_roofing_material, name_color, name_coverage, name_brand FROM materials JOIN type_of_roofing_material ON materials.id_type_of_roofing_material = type_of_roofing_material.id_type_of_roofing_material JOIN color ON materials.id_color = color.id_color JOIN coverage ON materials.id_coverage = coverage.id_coverage JOIN brand ON materials.id_brand = brand.id_brand WHERE name_materials LIKE %s", ('%' + query + '%',))
-    results = cur.fetchall()
-    cur.close()
-    return render_template('results.html', results=results)
+    cursor = mysql.connection.cursor()
+
+    # Загружаем данные для фильтров
+    cursor.execute("SELECT * FROM type_of_roofing_material")
+    types = cursor.fetchall()
+    cursor.execute("SELECT * FROM color")
+    colors = cursor.fetchall()
+    cursor.execute("SELECT * FROM coverage")
+    coverages = cursor.fetchall()
+    cursor.execute("SELECT * FROM brand")
+    brands = cursor.fetchall()
+
+    #Диапазоны
+    thickness_ranges = {
+        "0-0.5": {"start": 0.0, "end": 0.5, "label": "0 - 0.5 мм"},
+        "0.5-0.8": {"start": 0.5, "end": 0.8, "label": "0.5 - 0.8 мм"}, 
+        "0.8+": {"start": 0.8, "end": None, "label": "0.8 мм и более"}, 
+    }
+
+    price_ranges = {
+        "0-1000": {"start": 0, "end": 1000, "label": "до 1000 руб"},
+        "1000-1200": {"start": 1000, "end": 1200, "label": "1000 - 1200 руб"},
+        "1200-1500": {"start": 1200, "end": 1500, "label": "1200 - 1500 руб"},
+        "1500+": {"start": 1500, "end": None, "label": "1500 руб и выше"},
+    }
+
+    size_ranges = {
+        "0-1": {"start": 0, "end": 1, "label": "до 1 м²"},
+        "1-5": {"start": 1, "end": 5, "label": "1 - 5 м²"},
+        "5+": {"start": 5, "end": None, "label": "5 м² и более"},
+    }
+
+    form_data = request.form if request.method == 'POST' else {}
+
+    # Базовый SQL
+    sql = """
+        SELECT id_materials, name_materials, thickness, place, count, price, 
+               name_type_of_roofing_material, name_color, name_coverage, name_brand
+        FROM materials
+        JOIN type_of_roofing_material ON materials.id_type_of_roofing_material = type_of_roofing_material.id_type_of_roofing_material
+        JOIN color ON materials.id_color = color.id_color
+        JOIN coverage ON materials.id_coverage = coverage.id_coverage
+        JOIN brand ON materials.id_brand = brand.id_brand
+        WHERE 1=1
+    """
+    params = []
+
+    
+
+    if request.method == 'POST':
+        # Получаем установленные фильтры
+        query = request.form.get('query', '').strip()
+        type_filter = request.form.get('type_filter', '')
+        color_filter = request.form.get('color_filter', '')
+        coverage_filter = request.form.get('coverage_filter', '')
+        brand_filter = request.form.get('brand_filter', '')
+        thickness_filter = request.form.get('thickness_filter', '')
+        price_filter = request.form.get('price_filter', '')
+        size_filter = request.form.get('size_filter', '')
+
+       # --- Текстовый поиск ---
+        if query:
+            like_query = f"%{query}%"
+            sql += (
+                f" AND (name_materials LIKE '{like_query}' "
+                f"OR name_type_of_roofing_material LIKE '{like_query}' "
+                f"OR name_color LIKE '{like_query}' "
+                f"OR name_coverage LIKE '{like_query}' "
+                f"OR name_brand LIKE '{like_query}')"
+            )
+
+        # --- Простые фильтры ---
+        if type_filter:
+            sql += f" AND materials.id_type_of_roofing_material = {type_filter}"
+
+        if color_filter:
+            sql += f" AND materials.id_color = {color_filter}"
+
+        if coverage_filter:
+            sql += f" AND materials.id_coverage = {coverage_filter}"
+
+        if brand_filter:
+            sql += f" AND materials.id_brand = {brand_filter}"
+
+        # --- Фильтр по толщине ---
+        if thickness_filter:
+            r = thickness_ranges[thickness_filter]
+            if r["end"] is not None:
+                sql += f" AND materials.thickness BETWEEN {r['start']} AND {r['end']}"
+            else:
+                sql += f" AND materials.thickness >= {r['start']}"
+
+        # --- Фильтр по цене ---
+        if price_filter:
+            r = price_ranges[price_filter]
+            if r["end"] is not None:
+                sql += f" AND materials.price BETWEEN {r['start']} AND {r['end']}"
+            else:
+                sql += f" AND materials.price >= {r['start']}"
+
+        # --- Фильтр по размеру ---
+        if size_filter:
+            r = size_ranges[size_filter]
+            if r["end"] is not None:
+                sql += f" AND materials.place BETWEEN {r['start']} AND {r['end']}"
+            else:
+                sql += f" AND materials.place >= {r['start']}"
+    
+
+    sql += " ORDER BY name_materials"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    cursor.close()
+
+    return render_template('results.html',
+                           results=results,
+                           types=types,
+                           colors=colors,
+                           coverages=coverages,
+                           brands=brands,
+                           thickness_ranges=thickness_ranges,
+                           price_ranges=price_ranges,
+                           size_ranges=size_ranges,
+                           form_data=form_data)
 
 
 

@@ -3,9 +3,11 @@
 
 <div id="page-wrapper">
     <div class="container-fluid">
-        <div class="row bg-title">
+
+        <div class="bg-title">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                <h4 class="page-title">Редактирование материала</h4> </div>
+                <h4 class="page-title">Редактирование покрытий</h4>
+            </div>
             <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                 <ol class="breadcrumb">
                     <li><a href="/edit_type_of_roofing_material">|| Тип материалов |</a></li>
@@ -14,7 +16,6 @@
                     <li><a href="/edit_brand">| Коллекция ||</a></li>
                 </ol>
             </div>
-            <!-- /.col-lg-12 -->
         </div>
 
         {% if message %}
@@ -24,49 +25,62 @@
         {% endif %}
 
         <form method="POST">        
-        
-        <div class="row">
-            <div class="col-md-8 col-xs-12">
-                <div class="white-box">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <div class="white-box">
 
-                    <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Область применения</th>
-                            </tr>
-                        </thead>
-                        <tbody id="materialTableBody">
-                            {% for material in coverage %}
-                                <tr>
-                                    <td>
-                                        <input type="text" name="material_{{ material['id_coverage'] }}" id="material_{{ material['id_coverage'] }}" value="{{ material['name_coverage'] }}" style="width: 500px;">
-                                    </td>
-                                    <td>
-                                        <!-- Кнопка удаления с именем delete_id, где id материала -->
-                                        <button type="submit" name="delete_id" value="{{ material['id_coverage'] }}" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот материал?');">Удалить</button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>                                                    
-                    </table>
+                        <!-- Таблица существующих материалов -->
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="materialTableBody">
+                                    {% for material in coverage %}
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="material_{{ material['id_coverage'] }}" id="material_{{ material['id_coverage'] }}" 
+                                                   value="{{ material['name_coverage'] }}" class="form-control">
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <button type="submit" name="delete_id" value="{{ material['id_coverage'] }}" 
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Вы уверены, что хотите удалить этот материал?');">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>                                
+                            </table>
+                        </div>
+
+                        <!-- Добавление нового материала -->
+                        <div class="form-group row">
+                            <label for="new_material" class="col-md-12 col-form-label">Добавить:</label>
+                            <div class="col-md-12">
+                                <input type="text" name="new_material" id="new_material" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Кнопки сохранения и отмены -->
+                        <div class="form-group row mt-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary mr-2" onclick="return confirm('Сохранить изменения?');">
+                                    Сохранить изменения
+                                </button>
+                                <a href="{{ url_for('products') }}" class="btn btn-secondary" onclick="return confirm('Отменить изменения?');">
+                                    Отменить изменения
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
-
-                    <!-- Новый input для добавления нового материала -->
-                    <div>
-                        <label for="new_material">Добавить новый материал:</label>
-                        <input type="text" name="new_material" id="new_material" style="width: 500px;">
-                    </div>
-
-                    <br>
-
-                    <button type="submit" class="btn btn-primary" onclick="return confirm('Сохранить изменения?');">Сохранить изменения</button>
-                    <a href="{{ url_for('products') }}" class="btn btn-secondary" onclick="return confirm('Отменить изменения?');">Отменить изменения</a>
-
                 </div>
-            </div>
-        </div>        
-        
+            </div>        
         </form>
 
     </div>
