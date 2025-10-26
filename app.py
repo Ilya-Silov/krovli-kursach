@@ -17,13 +17,6 @@ app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
-#TODO: - Это к хуям удалить
-app.config['MYSQL_CUSTOM_OPTIONS'] = {
-    'ssl': {
-        'ca': f"{db['ssl']}",
-    }
-}
-#----
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = os.urandom(24)
 mysql = MySQL(app)
