@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="margin-left: 240px; padding: 20px;">
+    <h2>Оформление заказа: {{ material.name_materials }}</h2>
+
+    <form method="POST" id="orderForm">
+        <div class="form-group">
+            <label>Цена за единицу:</label>
+            <p id="unitPrice">{{ material.price }}</p>
+        </div>
+
+        <div class="form-group">
+            <label>Количество:</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Итого:</label>
+            <p id="totalPrice">{{ material.price }}</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Заказать</button>
+    </form>
+</div>
+
+<script>
+    const quantityInput = document.getElementById('quantity');
+    const unitPrice = parseFloat(document.getElementById('unitPrice').innerText);
+    const totalPriceElem = document.getElementById('totalPrice');
+
+    quantityInput.addEventListener('input', function() {
+        const qty = parseInt(this.value) || 0;
+        const total = (qty * unitPrice).toFixed(2);
+        totalPriceElem.innerText = total;
+    });
+</script>
+{% endblock %}

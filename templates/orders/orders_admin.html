@@ -1,40 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Все заказы</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID заказа</th>
-            <th>Дата</th>
-            <th>Клиент</th>
-            <th>Продукт</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Статус</th>
-            <th>Действие</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.id_order }}</td>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.firstname_client }} {{ order.lastname_client }}</td>
-            <td>{{ order.name_materials }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.price }}</td>
-            <td>{{ order.name_status }}</td>
-            <td>
-                <form action="/update_order_status/{{ order.id_order }}" method="post" style="display:inline-block;">
-                    <select name="status" class="form-select form-select-sm">
-                        <option value="1" {% if order.id_status == 1 %}selected{% endif %}>Новый</option>
-                        <option value="2" {% if order.id_status == 2 %}selected{% endif %}>В обработке</option>
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container" style="margin-left: 240px; padding: 20px;">
+    <h2>Все заказы</h2>
+
+    <form method="post" class="form-inline" style="margin-bottom: 15px;">
+        <div class="form-group">
+            <input type="text" name="search" class="form-control input-lg" placeholder="Поиск по ID, имени или фамилии" value="{{ search_query }}" style="width: 300px;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-left: 10px;">Поиск</button>
+    </form>
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID заказа</th>
+                    <th>Дата</th>
+                    <th>Клиент</th>
+                    <th>Продукт</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id_order }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.firstname_client }} {{ order.lastname_client }}</td>
+                    <td>{{ order.name_materials }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>
+                        {% for s in statuses %}
+                            {% if s.id_status == order.id_status %}
+                                {{ s.name_status }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <form action="/update_order_status/{{ order.id_order }}" method="post" class="d-flex gap-2">
+                            <select name="status" class="form-select form-select-sm">
+                                {% for status in statuses %}
+                                    <option value="{{ status.id_status }}" {% if status.id_status == order.id_status %}selected{% endif %}>
+                                        {{ status.name_status }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Обновить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

@@ -5,6 +5,7 @@ import yaml, os
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_ckeditor import CKEditor
 import re
+from functools import wraps
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -26,6 +27,28 @@ app.config['MYSQL_CUSTOM_OPTIONS'] = {
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 app.config['SECRET_KEY'] = os.urandom(24)
 mysql = MySQL(app)
+
+# методы помощники
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'login' not in session:
+            flash('Сначала войдите в систему')
+            return redirect('/logcus')
+        return f(*args, **kwargs)
+    return decorated_function
+
+def role_required(roles):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if 'login' not in session or session.get('id_role') not in roles:
+                flash('У вас нет прав для доступа к этой странице')
+                return redirect('/')
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 
 
 # главная страница
@@ -148,6 +171,7 @@ def logcus():
                 session['id_role'] = client['id_role']
                 session['firstname_client'] = client['firstname_client']
                 session['lastname_client'] = client['lastname_client']
+                session['id_client'] = client['id_client']
                 session['message'] = 'Добро пожаловать, ' + session['firstname_client'] + '!'
             else:
                 cursor.close
@@ -167,12 +191,9 @@ def logcus():
 
 #регистрация администратора
 @app.route('/regemp', methods=['GET', 'POST'])
+@login_required
+@role_required([1])
 def regemp():
-    # Проверка роли текущего пользователя
-    if 'login' not in session or session.get('id_role') != 1:  # id_role=1 — супер-админ
-        session['message'] = "У вас нет прав для добавления новых пользователей"
-        return redirect('/')  # Или на страницу входа/ошибки
-    
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * FROM roles")
     roles = cursor.fetchall()
@@ -309,6 +330,8 @@ def sel_prod(id):
 
 # начало редактирования продуктов, редактирования и добавления характеристик
 @app.route('/edit_product<int:id>', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def edit_product(id):
     cursor = mysql.connection.cursor()
     if request.method == 'POST':
@@ -412,6 +435,8 @@ def edit_product(id):
 
 # начало добавления продуктов, редактирования и добавления характеристик
 @app.route('/add_product', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def add_product():
     cursor = mysql.connection.cursor()
 
@@ -506,6 +531,8 @@ def add_product():
 
 
 @app.route('/edit_type_of_roofing_material/', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def edit_type_of_roofing_material():
     cursor = mysql.connection.cursor()
     message = None
@@ -546,6 +573,8 @@ def edit_type_of_roofing_material():
 
 
 @app.route('/edit_color/', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def edit_color():
     cursor = mysql.connection.cursor()
     message = None  # Переменная для сообщения
@@ -588,6 +617,8 @@ def edit_color():
 
 
 @app.route('/edit_coverage/', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def edit_coverage():
     cursor = mysql.connection.cursor()
     message = None  # Переменная для сообщения
@@ -629,6 +660,8 @@ def edit_coverage():
 
 
 @app.route('/edit_brand/', methods=['GET', 'POST'])
+@login_required
+@role_required([1, 2])
 def edit_brand():
     cursor = mysql.connection.cursor()
     message = None  # Переменная для сообщения
@@ -797,16 +830,27 @@ def search():
                            form_data=form_data)
 
 
-@app.route('/orders')
+@app.route('/orders', methods=['GET', 'POST'])
+@login_required
 def orders():
     if 'login' not in session:
         return redirect('/logcus')
 
     cursor = mysql.connection.cursor()
 
-    if session.get('id_role') == 1:  # администратор
-        cursor.execute("""
-            SELECT o.id_order, o.order_date, os.name_status,
+    # Получаем все статусы
+    cursor.execute("SELECT * FROM order_status")
+    statuses = cursor.fetchall()
+
+    search_query = ''
+    if request.method == 'POST':
+        search_query = request.form.get('search', '').strip()
+
+    user_role = session.get('id_role')
+
+    if user_role in [1, 2]:  # администратор или модератор
+        sql = """
+            SELECT o.id_order, o.order_date, o.id_status, os.name_status,
                    c.firstname_client, c.lastname_client,
                    m.name_materials, oi.quantity, oi.price
             FROM orders o
@@ -814,15 +858,24 @@ def orders():
             JOIN order_items oi ON o.id_order = oi.id_order
             JOIN materials m ON oi.id_materials = m.id_materials
             JOIN order_status os ON o.id_status = os.id_status
-            ORDER BY o.order_date DESC
-        """)
+            WHERE 1=1
+        """
+        params = []
+
+        if search_query:
+            sql += " AND (o.id_order LIKE %s OR c.firstname_client LIKE %s OR c.lastname_client LIKE %s)"
+            like_query = f"%{search_query}%"
+            params.extend([like_query, like_query, like_query])
+
+        sql += " ORDER BY o.order_date DESC"
+        cursor.execute(sql, params)
         orders = cursor.fetchall()
         cursor.close()
-        return render_template('orders/orders_admin.html', orders=orders)
+        return render_template('orders/orders_admin.html', orders=orders, statuses=statuses, search_query=search_query)
 
     else:  # клиент
         cursor.execute("""
-            SELECT o.id_order, o.order_date, os.name_status,
+            SELECT o.id_order, o.order_date, o.id_status, os.name_status,
                    m.name_materials, oi.quantity, oi.price
             FROM orders o
             JOIN order_items oi ON o.id_order = oi.id_order
@@ -836,6 +889,8 @@ def orders():
         return render_template('orders/orders_customer.html', orders=orders)
 
 @app.route('/update_order_status/<int:order_id>', methods=['POST'])
+@login_required
+@role_required([1, 2])
 def update_order_status(order_id):
     if 'login' not in session or session.get('id_role') not in [1, 2]:
         return redirect('/orders')
@@ -847,6 +902,38 @@ def update_order_status(order_id):
     mysql.connection.commit()
     cursor.close()
     return redirect('/orders')
+
+@app.route('/order/<int:material_id>', methods=['GET', 'POST'])
+@login_required
+@role_required([3])
+def order(material_id):
+
+    cursor = mysql.connection.cursor()
+    # Получаем данные материала
+    cursor.execute("SELECT * FROM materials WHERE id_materials=%s", (material_id,))
+    material = cursor.fetchone()
+
+    if request.method == 'POST':
+        quantity = int(request.form['quantity'])
+        price = material['price'] * quantity
+
+        # Создаем заказ
+        cursor.execute(
+            "INSERT INTO orders (id_client) VALUES (%s)",
+            (session['id_client'],)
+        )
+        order_id = cursor.lastrowid
+
+        # Добавляем товар в заказ
+        cursor.execute(
+            "INSERT INTO order_items (id_order, id_materials, quantity, price) VALUES (%s, %s, %s, %s)",
+            (order_id, material_id, quantity, price)
+        )
+        mysql.connection.commit()
+        flash('Заказ успешно создан!')
+        return redirect(url_for('orders'))
+
+    return render_template('orders/order_form.html', material=material)
 
 
 

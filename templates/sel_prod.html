@@ -91,6 +91,9 @@
         </div>        
         
         {% endif %}
+        {% if session.id_role == 3 %}
+            <a href="{{ url_for('order', material_id=materials['id_materials']) }}" class="btn btn-success">Заказать</a>
+        {% endif %}
         </form>
     </div>
 </div>

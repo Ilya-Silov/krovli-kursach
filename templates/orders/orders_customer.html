@@ -1,28 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Мои заказы</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID заказа</th>
-            <th>Дата</th>
-            <th>Продукт</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Статус</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.id_order }}</td>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.name_materials }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.price }}</td>
-            <td>{{ order.name_status }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container-fluid">
+    <div class="row">
+        <!-- main content сдвинут вправо, чтобы не перекрывать sidebar -->
+        <div style="margin-left: 240px;">
+            <h2>Мои заказы</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID заказа</th>
+                            <th>Дата</th>
+                            <th>Продукт</th>
+                            <th>Количество</th>
+                            <th>Цена</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id_order }}</td>
+                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.name_materials }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ order.price }}</td>
+                            <td>{{ order.name_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
